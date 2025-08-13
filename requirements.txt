@@ -1,0 +1,11 @@
+google-generativeai
+qdrant-client
+langchain
+langgraph
+streamlit
+pypdf
+python-dotenv
+requests
+pytest
+tqdm
+
