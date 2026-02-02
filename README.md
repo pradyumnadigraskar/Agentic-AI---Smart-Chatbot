@@ -147,15 +147,7 @@
 
 
 
-**Made with ❤️ by the Agentic AI **
-
-
-
-[![GitHub Stars](https://img.shields.io/github/stars/your-username/your-repo?style=social)](https://github.com/your-username/your-repo)
-
-[![GitHub Forks](https://img.shields.io/github/forks/your-username/your-repo?style=social)](https://github.com/your-username/your-repo)
-
-[![GitHub Issues](https://img.shields.io/github/issues/your-username/your-repo)](https://github.com/your-username/your-repo/issues)
+   Made with ❤️ by the Agentic AI 
 
 
 
