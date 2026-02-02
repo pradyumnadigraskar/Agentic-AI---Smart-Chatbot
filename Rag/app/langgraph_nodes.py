@@ -1,6 +1,6 @@
 from typing import Dict, Any
 from app.openweather import get_weather_by_city
-from app.processor import retrieve_and_answer
+
 
 def decision_node(payload: Dict[str, Any]) -> Dict[str, Any]:
     text = payload.get("text", "")
@@ -26,10 +26,4 @@ def weather_worker(inputs: Dict[str, Any]) -> Dict[str, Any]:
     except Exception as e:
         return {"error": str(e)}
 
-def rag_worker(inputs: Dict[str, Any]) -> Dict[str, Any]:
-    q = inputs.get("query", "")
-    try:
-        ans = retrieve_and_answer(q)
-        return {"result": ans}
-    except Exception as e:
-        return {"error": str(e)}
+

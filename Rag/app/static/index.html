@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-robot"></i> Agentic AI
+            </div>
+            
+            <div class="upload-section">
+                <h3><i class="fas fa-file-pdf"></i> Upload Knowledge</h3>
+                <div class="file-drop-area" id="dropArea">
+                    <span class="file-msg">Drag & Drop PDF here or Click</span>
+                    <input class="file-input" type="file" id="pdfInput" accept=".pdf">
+                </div>
+                <button id="uploadBtn" onclick="uploadPDF()">Upload & Index</button>
+                <div id="uploadStatus" class="status-msg"></div>
+            </div>
+
+            <div class="info-box">
+                <h4>Capabilities</h4>
+                <ul>
+                    <li><i class="fas fa-search"></i> RAG Document Search</li>
+                    <li><i class="fas fa-cloud-sun"></i> Live Weather Data</li>
+                    <li><i class="fas fa-check-circle"></i> Auto-Evaluation</li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="chat-container">
+            <div class="chat-header">
+                <h2>Assistant</h2>
+            </div>
+            
+            <div id="chatHistory" class="chat-history">
+                <div class="message bot-message">
+                    Hello! I can answer questions from your PDFs or check the weather. How can I help?
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="userQuery" placeholder="Ask something (e.g., 'Weather in London' or 'Summary of PDF')..." onkeypress="handleEnter(event)">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

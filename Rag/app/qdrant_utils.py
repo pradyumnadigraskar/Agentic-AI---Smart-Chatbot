@@ -1,4 +1,4 @@
-# app/qdrant_utils.py
+# Rag/app/qdrant_utils.py
 
 import os
 from qdrant_client import QdrantClient
@@ -10,46 +10,49 @@ def get_qdrant_client():
     """
     client = QdrantClient(
         url=os.getenv("QDRANT_URL", "http://localhost:6333"),
-        api_key=os.getenv("QDRANT_API_KEY", None)  # Optional if running locally
+        api_key=os.getenv("QDRANT_API_KEY", None)
     )
     return client
 
+def recreate_collection(client, collection_name, vector_size):
+    """
+    Forces recreation of a collection, effectively clearing all old data.
+    """
+    # Try to delete if it exists
+    try:
+        client.delete_collection(collection_name)
+        print(f"[Qdrant] Deleted old collection '{collection_name}'")
+    except Exception:
+        pass  # Collection might not exist yet, which is fine
+
+    # Create fresh
+    client.create_collection(
+        collection_name=collection_name,
+        vectors_config=VectorParams(size=vector_size, distance=Distance.COSINE)
+    )
+    print(f"[Qdrant] Created fresh collection '{collection_name}'")
 
 def ensure_collection(client, collection_name, vector_size):
     """
-    Ensures the Qdrant collection exists and matches the given vector size.
-    If a mismatch is found, deletes and recreates the collection.
+    Ensures the Qdrant collection exists.
     """
     collections = [c.name for c in client.get_collections().collections]
 
     if collection_name not in collections:
-        print(f"[Qdrant] Creating collection '{collection_name}' with vector size {vector_size}")
         client.create_collection(
             collection_name=collection_name,
             vectors_config=VectorParams(size=vector_size, distance=Distance.COSINE)
         )
-    else:
-        info = client.get_collection(collection_name)
-        existing_size = info.config.params.vectors.size
-        if existing_size != vector_size:
-            print(f"[Qdrant] Vector size mismatch: existing={existing_size}, required={vector_size}. Recreating collection...")
-            client.delete_collection(collection_name)
-            client.create_collection(
-                collection_name=collection_name,
-                vectors_config=VectorParams(size=vector_size, distance=Distance.COSINE)
-            )
-
 
 def upsert_documents(client, collection_name, vectors, metadatas, ids):
     """
-    Inserts or updates documents in the Qdrant collection.
-    Automatically ensures collection is created with correct vector size.
+    Inserts documents into the Qdrant collection.
     """
     if not vectors:
-        print("[Qdrant] No vectors to upsert.")
         return
 
-    # Ensure collection exists and matches embedding size
+    # Note: We rely on the caller (processor.py) to handle clearing/recreating 
+    # the collection if a fresh start is needed.
     ensure_collection(client, collection_name, len(vectors[0]))
 
     points = [
@@ -62,13 +65,9 @@ def upsert_documents(client, collection_name, vectors, metadatas, ids):
     ]
 
     client.upsert(collection_name=collection_name, points=points)
-    print(f"[Qdrant] Upserted {len(points)} points into collection '{collection_name}'.")
-
+    print(f"[Qdrant] Upserted {len(points)} points.")
 
 def search_query(client, collection_name, query_vector, top_k=5):
-    """
-    Searches Qdrant collection for top_k closest matches to the query_vector.
-    """
     return client.search(
         collection_name=collection_name,
         query_vector=query_vector,

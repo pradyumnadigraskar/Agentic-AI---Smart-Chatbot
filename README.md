@@ -153,7 +153,7 @@ LANGSMITH_API_KEY=your_langsmith_api_key_here
 
 <div align="center">
 
-![Weather Response Interface](wethr.png)
+![Weather Response Interface](main.png)
 
 </div>
 
@@ -180,7 +180,7 @@ evaluation = evaluate(query, response)
 
 <div align="center">
 
-![PDF Response Interface](pdf.png)
+![PDF Response Interface](main.png)
 
 </div>
 
