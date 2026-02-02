@@ -70,22 +70,8 @@
 | **Weather API** | OpenWeatherMap | Real-time weather data |
 | **Evaluation** | LangSmith | Response quality assessment |
 
-### System Flow
 
-```mermaid
-graph TD
-    A[User Query] --> B[Decision Node]
-    B --> C{Query Type?}
-    C -->|Weather| D[Weather Worker]
-    C -->|Document| E[RAG Worker]
-    D --> F[OpenWeather API]
-    E --> G[Qdrant Search]
-    G --> H[Gemini Generation]
-    F --> I[Response]
-    H --> I
-    I --> J[Evaluation]
-    J --> K[UI Display]
-```
+
 
 ---
 
@@ -157,24 +143,7 @@ LANGSMITH_API_KEY=your_langsmith_api_key_here
 
 </div>
 
-```python
-# 1. User submits query
-query = "What's the weather in Paris?"
 
-# 2. Decision node classifies query
-decision = decision_node({"text": query})
-# Result: {"action": "weather", "city": "Paris"}
-
-# 3. Appropriate worker processes query
-if decision["action"] == "weather":
-    result = weather_worker(decision)
-else:
-    result = rag_worker(decision)
-
-# 4. Response generation and evaluation
-response = result["result"]
-evaluation = evaluate(query, response)
-```
 
 ### 2. **Document Indexing Process**
 
@@ -184,19 +153,7 @@ evaluation = evaluate(query, response)
 
 </div>
 
-```python
-# 1. PDF text extraction
-text = load_pdf_text("document.pdf")
 
-# 2. Text chunking with overlap
-chunks = split_text_to_chunks(text, chunk_words=400, overlap_words=80)
-
-# 3. Embedding generation
-embeddings = embed_texts(chunks)
-
-# 4. Vector storage in Qdrant
-upsert_documents(client, collection_name, embeddings, metadatas, ids)
-```
 
 ### 3. **RAG Retrieval Process**
 
@@ -253,51 +210,7 @@ Agenti Ai pipline/
 
 ---
 
-## 🔧 API Reference
 
-### Core Functions
-
-#### Decision Node
-```python
-def decision_node(payload: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Classifies user queries as weather or document-related.
-    
-    Args:
-        payload: Dictionary containing user query text
-        
-    Returns:
-        Dictionary with action type and extracted parameters
-    """
-```
-
-#### Weather Worker
-```python
-def weather_worker(inputs: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Processes weather-related queries using OpenWeatherMap API.
-    
-    Args:
-        inputs: Dictionary containing city information
-        
-    Returns:
-        Dictionary with weather data or error message
-    """
-```
-
-#### RAG Worker
-```python
-def rag_worker(inputs: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Processes document-related queries using RAG pipeline.
-    
-    Args:
-        inputs: Dictionary containing user query
-        
-    Returns:
-        Dictionary with generated answer or error message
-    """
-```
 
 ### Configuration
 
@@ -311,20 +224,7 @@ def rag_worker(inputs: Dict[str, Any]) -> Dict[str, Any]:
 
 ---
 
-## 🧪 Testing
 
-Run the comprehensive test suite:
-
-```bash
-# Run all tests
-pytest Rag/tests/
-
-# Run specific test file
-pytest Rag/tests/test_gemini_client.py
-
-# Run with coverage
-pytest Rag/tests/ --cov=Rag/app --cov-report=html
-```
 
 ### Test Coverage
 
@@ -409,18 +309,7 @@ pytest Rag/tests/
 
 ---
 
-## 🔮 Roadmap
 
-- [ ] **Multi-modal Support** - Image and audio processing
-- [ ] **Advanced Caching** - Redis integration for performance
-- [ ] **User Authentication** - Secure access control
-- [ ] **Analytics Dashboard** - Usage metrics and insights
-- [ ] **API Rate Limiting** - Production-grade throttling
-- [ ] **Webhook Integration** - Real-time notifications
-- [ ] **Multi-language Support** - Internationalization
-- [ ] **Mobile App** - Native iOS/Android applications
-
----
 
 ## 📄 License
 
