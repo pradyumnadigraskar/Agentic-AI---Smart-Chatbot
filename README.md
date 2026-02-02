@@ -118,19 +118,45 @@
 | **Weather API** | OpenWeatherMap | Real-time weather data |
 | **Evaluation** | LangSmith | Response quality assessment |
 
-### System Flow
 
-```mermaid
-graph TD
-    A[User Query (Frontend)] -->|POST /api/chat| B[FastAPI Server]
-    B --> C[Decision Node]
-    C --> D{Query Type?}
-    D -->|Weather| E[Weather Worker]
-    D -->|Document| F[RAG Worker (Stream)]
-    E --> G[OpenWeather API]
-    F --> H[Qdrant Search]
-    H --> I[Gemini Generation]
-    G --> J[Response Stream]
-    I --> J
-    J --> K[Frontend Display]
+---
 
+
+
+## 🙏 Acknowledgments
+
+
+
+- **Google Gemini** for powerful AI capabilities
+
+- **OpenWeatherMap** for reliable weather data
+
+- **Qdrant** for high-performance vector storage
+
+- **Streamlit** for beautiful web interfaces
+
+- **LangGraph** for agentic workflow orchestration
+
+
+
+---
+
+
+
+<div align="center">
+
+
+
+**Made with ❤️ by the Agentic AI **
+
+
+
+[![GitHub Stars](https://img.shields.io/github/stars/your-username/your-repo?style=social)](https://github.com/your-username/your-repo)
+
+[![GitHub Forks](https://img.shields.io/github/forks/your-username/your-repo?style=social)](https://github.com/your-username/your-repo)
+
+[![GitHub Issues](https://img.shields.io/github/issues/your-username/your-repo)](https://github.com/your-username/your-repo/issues)
+
+
+
+</div>
